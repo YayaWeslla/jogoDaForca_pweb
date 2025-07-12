@@ -6,31 +6,77 @@
     6. Caso complete a palavra informar que o usuário conseguiu
     7. Manter no looping até que o usuário encerre a aplicação*/
 
-function jogarForca(){
-    let palavras = ["amora", "uva", "manga"];
-    let palavraSorteada;
+function escolherPalavra() {
+    const palavras = ["amora", "uva", "manga"];
+    const palavraSorteada = Math.floor(Math.random() * palavras.length); //Sorteia uma palavra do vetor de palavras
+    return palavras[palavraSorteada];
+}
+
+function exibirEstado(palavra, letrasCorretas) {
+    return palavra.split("").map(letra => letrasCorretas.includes(letra) ? letra : "_").join(" ");
+    /*.split("") // Divide a palavra em um array de letras
+      .map(letra => letrasCorretas.includes(letra) ? letra : "_") // Substitui letras não adivinhadas por "_"
+      .join(" "); // Junta tudo com espaço entre os caracteres */
+}
+
+function jogarForca() {
     let continua;
-    let letra;
 
-    //Sorteia uma palavra do vetor de palavras
-    palavraSorteada = palavraSorteada.at(Math.floor(Math.random() * palavras.length))
+    do {
+        alert("Bem-vind@ ao jogo da forca!\nSua missão é adivinhar qual é a palvra que o computador escolheu chutando as letras dela, a cada erro uma parte do boneco surge.\nBom jogo ;)");
+        const palavraSecreta = escolherPalavra();
+        const letrasCorretas = [];
+        const letrasErradas = [];
+        const partesBoneco = ["cabeça", "tronco", "braço esquerdo", "braço direito", "perna esquerda", "perna direita"];
+        const maxErros = partesBoneco.length;
+        let venceu = false;
 
-    alert("Bem-vind@ ao jogo da forca!\nSua missão é adivinhar qual é a palvra que o computador escolheu chutando as letras dela, a cada erro uma parte do boneco surge.\nBom jogo ;)");
-    
-    do{
-        for(let i = 0; i <= 5; i++){
-            alert("Você tem até 5 tentativas antes que o boneco seja enforcado!");
-            letra = prompt("Informe uma letra:");
-            for(let j = 0; j <= palavraSorteada.length; j++){
-                if(letra == palavraSorteada.at(j)){
-                    
-                }
+        while (letrasErradas.length < maxErros && !venceu) {
+            alert(`\nPalavra: ${exibirEstado(palavraSecreta, letrasCorretas)}`);
+            alert(`Erros: ${letrasErradas.join(", ")} (${letrasErradas.length}/${maxErros})`);
+
+            const tentativa = prompt("Digite uma letra: ").toLowerCase();
+
+            if (tentativa.length !== 1 || !/[a-z]/.test(tentativa)) {
+                alert("Por favor, insira apenas uma letra válida.");
+                continue;
             }
 
-        }
-        continua = prompt("Deseja continuar jogando? (1-SIM | 2-NÃO):");
-    }while(continua == 1);
+            if (letrasCorretas.includes(tentativa) || letrasErradas.includes(tentativa)) {
+                alert("Você já tentou essa letra!");
+                continue;
+            }
 
+            if (palavraSecreta.includes(tentativa)) {
+                letrasCorretas.push(tentativa);
+                alert("Boa! Você acertou uma letra.");
+            } else {
+                letrasErradas.push(tentativa);
+                alert(`Ops! Essa letra não está na palavra. Surgiu a parte: [${partesBoneco[letrasErradas.length - 1]}] do boneco na forca`);
+            }
+
+            if (exibirEstado(palavraSecreta, letrasCorretas).replace(/\s/g, "") === palavraSecreta) {
+                venceu = true;
+            }
+        }
+
+        if (venceu) {
+            alert(`\nParabéns! Você adivinhou a palavra: ${palavraSecreta}`);
+        } else {
+            alert(`\nQue pena! Você perdeu. A palavra era: ${palavraSecreta}`);
+        }
+
+        continua = prompt("Deseja continuar jogando? (1-SIM | 2-NÃO):");
+    } while (continua == 1);
+
+    alert("Até a próxima partida!")
 }
 
 jogarForca();
+
+/*const palavras = [
+  "javascript", "programacao", "computador", "internet", "tecnologia",
+  "desenvolvimento", "software", "hardware", "algoritmo", "variavel",
+  "constante", "funcoes", "sintaxe", "framework", "biblioteca",
+  "aplicativo", "servidor", "cliente", "navegador", "sistema"
+];*/
