@@ -7,7 +7,8 @@
     7. Manter no looping até que o usuário encerre a aplicação*/
 
 function escolherPalavra() {
-    const palavras = ["amora", "uva", "manga"];
+    const palavras = ["amora", "uva", "manga", "abacaxi","banana", "morango","caju" ,"laranja", "javascript", "programacao", "computador", "internet", "tecnologia",
+        "desenvolvimento", "fóssil", "satélite", "cenário", "esfinge", "lanterna", "coral"];
     const palavraSorteada = Math.floor(Math.random() * palavras.length); //Sorteia uma palavra do vetor de palavras
     return palavras[palavraSorteada];
 }
@@ -75,8 +76,7 @@ function jogarForca() {
 jogarForca();
 
 /*const palavras = [
-  "javascript", "programacao", "computador", "internet", "tecnologia",
-  "desenvolvimento", "software", "hardware", "algoritmo", "variavel",
+  , "software", "hardware", "algoritmo", "variavel",
   "constante", "funcoes", "sintaxe", "framework", "biblioteca",
   "aplicativo", "servidor", "cliente", "navegador", "sistema"
 ];*/
